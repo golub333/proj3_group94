@@ -142,6 +142,7 @@ void Graph::addEdge(map <long, vector<pair<long, unsigned int>>> &adjList, long 
         
 }
 
+//Checks if the two vertices are valid for primMST
 bool Graph::checkValidity(map <long, bool> &inMST, long from, long to)
 {
     if (from == to)
@@ -153,6 +154,7 @@ bool Graph::checkValidity(map <long, bool> &inMST, long from, long to)
 
     return true;
 }
+
 void Graph::primMST(long from)
 {
     map<long, bool> inMST;
@@ -168,7 +170,7 @@ void Graph::primMST(long from)
         long f = -1;
         long to = -1;
 
-        for (auto i = this->adjList.find(from); i != this->adjList.end(); i++)
+        for (auto i = this->adjList.begin(); i != this->adjList.end(); i++)
         {
             for (int j = 0; j < i->second.size(); j++)
             { 
