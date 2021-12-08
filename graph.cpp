@@ -19,11 +19,13 @@ public:
     void parseUsers();
     void GetLocationData();
     int Distance(int x, int y);
-    void addEdge(map <int, vector<pair<int, unsigned int>>>& adjList, int u, int v);
+    void addEdge(int u, int v);
     bool checkValidity(map <int, bool>& inMST, int from, int to);
     void primMST(int from);
     pair<int, int> degreeSeparationBFS();
     pair<int, int> degreeSeparationDijkstra();
+    vector<int> BFS(int source);
+    vector<int> dijkstra(int source);
     pair<int, int> specifiedUsersBFS(int source, int dest);
     pair<int, int> specifiedUsersDijkstra(int source, int dest);
 
@@ -103,13 +105,13 @@ void Graph::parseUsers()
                     user = line.substr(0, position);
                     line = line.substr(position + 2);
                     userNum = stol(user);
-                    addEdge(this->adjList, firstUser, userNum);
+                    addEdge(firstUser, userNum);
                 }
                 //connects the last user of the line
                 else
                 {
                     userNum = stol(line);
-                    addEdge(this->adjList, firstUser, userNum);
+                    addEdge(firstUser, userNum);
                     moreVertices = false;
                 }
             }
@@ -118,7 +120,7 @@ void Graph::parseUsers()
 }
 
 //Connects two vertices and how far they are apart. Adds to adjacency list
-void Graph::addEdge(map <int, vector<pair<int, unsigned int>>>& adjList, int from, int to)
+void Graph::addEdge(int from, int to)
 {
     int distance = Distance(from, to);//Change this to the distance function
 
@@ -200,7 +202,7 @@ void Graph::primMST(int from)
 }
 //Uses a modified form of breadth first search to calculate distance of all nodes which can be reached from a 
 //source node, with the edge weights all equal to one. Unreachable nodes will be left with a distance of INT_MAX.
-vector<int> BFS(map<int, vector<pair<int, unsigned int>>> &adjList, int source) {
+vector<int> Graph::BFS(int source) {
     const int maxSize = 1000001;
 
     vector<int> visited(maxSize, false);
@@ -233,7 +235,7 @@ vector<int> BFS(map<int, vector<pair<int, unsigned int>>> &adjList, int source) 
 }
 //Calculates distance to all nodes from a given source node, where the edge weight is geographical distance. 
 //Distance to any unreachable nodes will be left at INT_MAX.
-vector<int> dijkstra(map<int, vector<pair<int, unsigned int>>> &adjList, int source) {
+vector<int> Graph::dijkstra(int source) {
     const int maxSize = 1000001;
 
     //Min heap containing pairs which store the distance to the given vertex and the vertex
@@ -278,7 +280,7 @@ pair<int, int> Graph::degreeSeparationBFS() {
 
     //Runs BFS on ten different randomly generated vertices within graph range
     for (int i = 0; i < 10; i++) {
-        vector<int> distances = BFS(this->adjList, d(gen));
+        vector<int> distances = BFS(d(gen));
 
         //Sums the values of all distances calculated as well as the number of nodes which were reached in each BFS
         for (int temp : distances) {
@@ -311,7 +313,7 @@ pair<int, int> Graph::degreeSeparationDijkstra() {
 
     //Runs Dijkstra's on ten different randomly generated vertices within graph range
     for (int i = 0; i < 10; i++) {
-        vector<int> distances = dijkstra(this->adjList, d(gen));
+        vector<int> distances = dijkstra(d(gen));
 
         //Sums the values of all distances calculated as well as the number of nodes which were reached in each run
         for (int temp : distances) {
@@ -336,7 +338,7 @@ pair<int, int> Graph::specifiedUsersBFS(int source, int dest) {
     int numConnectedNodes = 0;
     int sum = 0;
 
-    vector<int> distances = BFS(this->adjList, source);
+    vector<int> distances = BFS(source);
 
     //Sums the values of all distances calculated
     for (int temp : distances) {
@@ -357,7 +359,7 @@ pair<int, int> Graph::specifiedUsersDijkstra(int source, int dest) {
     int numConnectedNodes = 0;
     int sum = 0;
 
-    vector<int> distances = dijkstra(this->adjList, source);
+    vector<int> distances = dijkstra(source);
 
     //Sums the values of all distances calculated
     for (int temp : distances) {
