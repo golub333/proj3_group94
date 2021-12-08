@@ -26,9 +26,12 @@ public:
     void parseUsers();
     void GetLocationData();
     int Distance(int x, int y);
-    void addEdge(map <long, vector<pair<long, unsigned int>>> &adjList, long u, long v);
+    void addEdge(map <long, vector<pair<long, unsigned int>>>& adjList, long u, long v);
     bool checkValidity(map <long, bool>& inMST, long from, long to);
     void primMST(long from);
+    pair<int, int> degreeSeparationBFS();
+    pair<int, int> degreeSeparationDijkstra();
+
 };
 
 Graph::Graph()
@@ -63,7 +66,7 @@ void Graph::GetLocationData()
 }
 int Graph::Distance(int x, int y)
 {
-    
+
     double R = 6371.0; //approximation of the earth's avg radius
     double firstTerm = sin((this->coordinates[y].first - this->coordinates[x].first) / 2) * sin((this->coordinates[y].first - this->coordinates[x].first) / 2);
     double secondTerm = 1 - firstTerm - (sin((this->coordinates[y].first + this->coordinates[x].first) / 2) * sin((this->coordinates[y].first + this->coordinates[x].first) / 2));
@@ -78,7 +81,7 @@ void Graph::parseUsers()
     string user;
     long userNum;
     long firstUser;
-    
+
     string line;
     ifstream userFile("1_million_user.txt");
     if (userFile.is_open())
@@ -120,7 +123,7 @@ void Graph::parseUsers()
 }
 
 //Connects two vertices and how far they are apart. Adds to adjacency list
-void Graph::addEdge(map <long, vector<pair<long, unsigned int>>> &adjList, long from, long to)
+void Graph::addEdge(map <long, vector<pair<long, unsigned int>>>& adjList, long from, long to)
 {
     int distance = Distance(from, to);//Change this to the distance function
 
@@ -143,11 +146,11 @@ void Graph::addEdge(map <long, vector<pair<long, unsigned int>>> &adjList, long 
         temp.push_back(make_pair(-1, 0));
         adjList.emplace(to, temp);
     }
-        
+
 }
 
 //Checks if the two vertices are valid for primMST
-bool Graph::checkValidity(map <long, bool> &inMST, long from, long to)
+bool Graph::checkValidity(map <long, bool>& inMST, long from, long to)
 {
     if (from == to)
         return false;
@@ -162,7 +165,7 @@ bool Graph::checkValidity(map <long, bool> &inMST, long from, long to)
 void Graph::primMST(long from)
 {
     map<long, bool> inMST;
-    
+
     inMST.emplace(from, true);
     int edge_count = 0;
     int minCost = 0;
@@ -177,7 +180,7 @@ void Graph::primMST(long from)
         for (auto i = this->adjList.begin(); i != this->adjList.end(); i++)
         {
             for (int j = 0; j < i->second.size(); j++)
-            { 
+            {
                 if (i->second[j].second < min && i->second[j].second != 0)
                 {
                     if (checkValidity(inMST, i->first, i->second[j].first))
@@ -203,25 +206,25 @@ void Graph::primMST(long from)
 
 //Uses a modified form of breadth first search to calculate distance of all nodes which can be reached from a 
 //source node, with the edge weights all equal to one. Unreachable nodes will be left with a distance of INT_MAX.
-vector<int> BFS(Graph& userData, int source) {
-    const int maxIndex = 1000000;
+vector<int> BFS(map<long, vector<pair<long, unsigned int>>> &adjList, int source) {
+    const int maxSize = 1000001;
 
-    vector<int> visited(maxIndex, false);
-    vector<int> distance(maxIndex, INT_MAX);
+    vector<int> visited(maxSize, false);
+    vector<int> distance(maxSize, INT_MAX);
 
     queue<int> q;
     distance[source] = 0;
     visited[source] = true;
     q.push(source);
-    
+
     //Iterates through queue, visiting each node which can be reached
     while (!q.empty()) {
         int tempVertex = q.front();
         q.pop();
 
         //Iterates through neighbors of given node
-        for (int i = 0; i < userData.adjList[tempVertex].size(); i++) {
-            int temp = userData.adjList[tempVertex][i].first;
+        for (int i = 0; i < adjList[tempVertex].size(); i++) {
+            int temp = adjList[tempVertex][i].first;
 
             //If given node has not been visited, update its distance to be that of its predecessor + 1
             //and mark it visited, then add its neighbors to the queue
@@ -238,13 +241,13 @@ vector<int> BFS(Graph& userData, int source) {
 
 //Calculates distance to all nodes from a given source node, where the edge weight is geographical distance. 
 //Distance to any unreachable nodes will be left at INT_MAX.
-vector<int> dijkstra(Graph& userData, int source) {
-    const int maxIndex = 1000000;
+vector<int> dijkstra(map<long, vector<pair<long, unsigned int>>> &adjList, int source) {
+    const int maxSize = 1000001;
 
     //Min heap containing pairs which store the distance to the given vertex and the vertex
     priority_queue <pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
-    vector<int> distance(maxIndex, INT_MAX);
+    vector<int> distance(maxSize, INT_MAX);
 
     distance[source] = 0;
     pq.push(make_pair(0, source));
@@ -255,7 +258,7 @@ vector<int> dijkstra(Graph& userData, int source) {
         pq.pop();
 
         //Iterates through given vertex's neighbors
-        for (pair<long, unsigned int> temp : userData.adjList[tempVertex]) {
+        for (pair<long, unsigned int> temp : adjList[tempVertex]) {
 
             long neighbor = temp.first;
             unsigned int weight = temp.second;
@@ -272,8 +275,8 @@ vector<int> dijkstra(Graph& userData, int source) {
     return distance;
 
 }
-
-pair<int, int> degreeSeparationBFS(Graph& userData) {
+//First value in pair is average degrees of separation, second is largest distance found
+pair<int, int> Graph::degreeSeparationBFS() {
 
     int tempLargest = 0;
     double average = 0;
@@ -286,7 +289,7 @@ pair<int, int> degreeSeparationBFS(Graph& userData) {
 
     //Runs BFS on ten different randomly generated vertices within graph range
     for (int i = 0; i < 10; i++) {
-        vector<int> distances = BFS(userData, d(gen));
+        vector<int> distances = BFS(this->adjList, d(gen));
 
         //Sums the values of all distances calculated as well as the number of nodes which were reached in each BFS
         for (int temp : distances) {
@@ -305,8 +308,8 @@ pair<int, int> degreeSeparationBFS(Graph& userData) {
 
     return make_pair(average, tempLargest);
 }
-
-std::pair<int, int> degreeSeparationDijkstra(Graph& userData) {
+//First value in pair is average degrees of separation, second is largest distance found
+pair<int, int> Graph::degreeSeparationDijkstra() {
 
     int tempLargest = 0;
     double average = 0;
@@ -319,7 +322,7 @@ std::pair<int, int> degreeSeparationDijkstra(Graph& userData) {
 
     //Runs Dijkstra's on ten different randomly generated vertices within graph range
     for (int i = 0; i < 10; i++) {
-        vector<int> distances = dijkstra(userData, d(gen));
+        vector<int> distances = dijkstra(this->adjList, d(gen));
 
         //Sums the values of all distances calculated as well as the number of nodes which were reached in each run
         for (int temp : distances) {
