@@ -7,16 +7,20 @@ using namespace std;
 
 int main()
 {
+    int maxSize = 0;
     //Initialize the graph and get the data (for 1,000,000 coordinates)
-    Graph twitterUsers;
+    cout << setw(41) << "Welcome to our COP 3530 Project 3" << endl;
+    cout << "Our program uses graph algorithms to solve problems on Twitter users' connections" << endl;
+    cout << setfill('-') << setw(81) << "-" << endl;
+    cout << "Indicate the number of users you wish to include in the graph - Max of 1 million:" << endl;
+    cin >> maxSize;
+    cout << endl;
+    Graph twitterUsers(maxSize);
 
     //Begin user interaction with the program
     string selection = "-1";
-    cout << setw(41) << "Welcome to our COP 3530 Project 3" << endl;
-    cout << "Our program uses graph algorithms to solve problems on Twitter users' connections" << endl;
-    cout << setfill('-') << setw(82) << endl;
-    cout << setw(41) << "Select Operation: " << endl;
-    cout << setfill('-') << setw(82) << endl;
+    cout << setfill(' ') << setw(41) << "Select Operation: " << endl;
+    cout << setfill('-') << setw(81) << "-" << endl;
     cout << "1. Calculate Avg. and Max. Degrees of separation using BFS" << endl;
     cout << "2. Calculate Avg. and Max. Degrees of separation using Dijkstra's" << endl;
     cout << "3. Find the minimum spanning tree around a given user's connections" << endl;
@@ -42,7 +46,7 @@ int main()
         else if (selection == "3" || selection == "3.")
         {
             int user = 0;
-            cout << "Enter a number 1-1,000,000 (no commas) for the user you want to find a MST around" << endl;
+            cout << "Enter a number (no commas) for the user you want to find a MST around" << endl;
             cin >> user;
             cout << endl;
             //Complete functionality for MST
