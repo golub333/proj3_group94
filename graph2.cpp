@@ -196,11 +196,10 @@ void Graph::primMST(int from)
 }
 //Uses a modified form of breadth first search to calculate distance of all nodes which can be reached from a 
 //source node, with the edge weights all equal to one. Unreachable nodes will be left with a distance of INT_MAX.
-vector<int> Graph::BFS(int source) {
-    const int maxSize = 1000001;
+vector<int> Graph::BFS(int source, int maxSize) {
 
-    vector<int> visited(maxSize, false);
-    vector<int> distance(maxSize, INT_MAX);
+    vector<int> visited(maxSize + 1, false);
+    vector<int> distance(maxSize + 1, INT_MAX);
 
     queue<int> q;
     distance[source] = 0;
@@ -229,13 +228,12 @@ vector<int> Graph::BFS(int source) {
 }
 //Calculates distance to all nodes from a given source node, where the edge weight is geographical distance. 
 //Distance to any unreachable nodes will be left at INT_MAX.
-vector<int> Graph::dijkstra(int source) {
-    const int maxSize = 1000001;
+vector<int> Graph::dijkstra(int source, int maxSize + 1) {
 
     //Min heap containing pairs which store the distance to the given vertex and the vertex
     priority_queue <pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
-    vector<int> distance(maxSize, INT_MAX);
+    vector<int> distance(maxSize + 1, INT_MAX);
 
     distance[source] = 0;
     pq.push(make_pair(0, source));
@@ -269,12 +267,12 @@ pair<int, int> Graph::degreeSeparationBFS() {
     int numConnectedNodes = 0;
     int sum = 0;
 
-    uniform_int_distribution<> d(1, 1000000);
+    uniform_int_distribution<> d(1, maxSize);
     mt19937 gen;
 
     //Runs BFS on ten different randomly generated vertices within graph range
     for (int i = 0; i < 10; i++) {
-        vector<int> distances = BFS(d(gen));
+        vector<int> distances = BFS(d(gen), maxSize);
 
         //Sums the values of all distances calculated as well as the number of nodes which were reached in each BFS
         for (int temp : distances) {
@@ -302,12 +300,12 @@ pair<int, int> Graph::degreeSeparationDijkstra() {
     int numConnectedNodes = 0;
     int sum = 0;
 
-    uniform_int_distribution<> d(1, 1000000);
+    uniform_int_distribution<> d(1, maxSize);
     mt19937 gen;
 
     //Runs Dijkstra's on ten different randomly generated vertices within graph range
     for (int i = 0; i < 10; i++) {
-        vector<int> distances = dijkstra(d(gen));
+        vector<int> distances = dijkstra(d(gen), maxSize);
 
         //Sums the values of all distances calculated as well as the number of nodes which were reached in each run
         for (int temp : distances) {
