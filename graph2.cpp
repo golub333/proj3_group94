@@ -14,6 +14,7 @@ private:
     map<int, vector<pair<int, unsigned int>>> adjList;
     vector<pair<double, double>> coordinates;
 public:
+    int maxSize;
     Graph(int maxSize);
     void parseUsers(int& maxSize);
     void GetLocationData(int& maxSize);
@@ -34,6 +35,7 @@ Graph::Graph(int maxSize)
 {
     GetLocationData(maxSize); 
     parseUsers(maxSize);
+    this->maxSize = maxSize;
 }
 //Takes in the file of locations and places into a vector called locations
 void Graph::GetLocationData(int& maxSize)
