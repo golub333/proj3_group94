@@ -1,10 +1,16 @@
 #pragma once
-#include <map>
-#include <vector>
-#include <fstream>
-#include <cmath>
 #include <iostream>
+#include <map>
+#include <iterator>
+#include <vector>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <cmath>
+#include <utility>
+#include <set>
 #include <queue>
+#include <stack>
 #include <random>
 
 using namespace std;
