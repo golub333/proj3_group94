@@ -217,10 +217,12 @@ vector<int> Graph::BFS(int source, int maxSize) {
 
             //If given node has not been visited, update its distance to be that of its predecessor + 1
             //and mark it visited, then add its neighbors to the queue
-            if (!visited[temp]) {
-                visited[temp] = true;
-                distance[temp] = distance[tempVertex] + 1;
-                q.push(temp);
+            if (temp != -1) {
+                if (!visited[temp]) {
+                    visited[temp] = true;
+                    distance[temp] = distance[tempVertex] + 1;
+                    q.push(temp);
+                }
             }
         }
     }
