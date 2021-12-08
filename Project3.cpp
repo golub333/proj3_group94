@@ -31,6 +31,8 @@ public:
     void primMST(long from);
     pair<int, int> degreeSeparationBFS();
     pair<int, int> degreeSeparationDijkstra();
+    pair<int, int> specifiedUsersBFS(int source, int dest);
+    pair<int, int> specifiedUsersDijkstra(int source, int dest);
 
 };
 
@@ -203,7 +205,6 @@ void Graph::primMST(long from)
     }
     cout << "User " << from << " can reach " << edge_count << " users, spanning across a minimum distance of " << minCost << endl;
 }
-
 //Uses a modified form of breadth first search to calculate distance of all nodes which can be reached from a 
 //source node, with the edge weights all equal to one. Unreachable nodes will be left with a distance of INT_MAX.
 vector<int> BFS(map<long, vector<pair<long, unsigned int>>> &adjList, int source) {
@@ -235,10 +236,8 @@ vector<int> BFS(map<long, vector<pair<long, unsigned int>>> &adjList, int source
             }
         }
     }
-
     return distance;
 }
-
 //Calculates distance to all nodes from a given source node, where the edge weight is geographical distance. 
 //Distance to any unreachable nodes will be left at INT_MAX.
 vector<int> dijkstra(map<long, vector<pair<long, unsigned int>>> &adjList, int source) {
@@ -270,10 +269,7 @@ vector<int> dijkstra(map<long, vector<pair<long, unsigned int>>> &adjList, int s
             }
         }
     }
-
-
     return distance;
-
 }
 //First value in pair is average degrees of separation, second is largest distance found
 pair<int, int> Graph::degreeSeparationBFS() {
@@ -308,7 +304,7 @@ pair<int, int> Graph::degreeSeparationBFS() {
 
     return make_pair(average, tempLargest);
 }
-//First value in pair is average degrees of separation, second is largest distance found
+//First value in pair is average distance to users, second is largest distance found
 pair<int, int> Graph::degreeSeparationDijkstra() {
 
     int tempLargest = 0;
@@ -339,6 +335,48 @@ pair<int, int> Graph::degreeSeparationDijkstra() {
     average = ((double)sum) / ((double)numConnectedNodes);
 
     return make_pair(average, tempLargest);
+}
+//First value in pair is average distance to users from source vertex, second is distance to dest
+pair<int, int> Graph::specifiedUsersBFS(int source, int dest) {
+    double average = 0;
+
+    int numConnectedNodes = 0;
+    long sum = 0;
+
+    vector<int> distances = BFS(this->adjList, source);
+
+    //Sums the values of all distances calculated
+    for (int temp : distances) {
+        if (temp != INT_MAX && temp != 0) {
+            sum += temp;
+            numConnectedNodes++;
+        }
+    }
+    int distanceToUser = distances[dest];
+    average = ((double)sum) / ((double)numConnectedNodes);
+
+    return make_pair(average, distanceToUser);
+}
+//First value in pair is average distance to users from source vertex, second is distance to dest
+pair<int, int> Graph::specifiedUsersDijkstra(int source, int dest) {
+    double average = 0;
+
+    int numConnectedNodes = 0;
+    long sum = 0;
+
+    vector<int> distances = dijkstra(this->adjList, source);
+
+    //Sums the values of all distances calculated
+    for (int temp : distances) {
+        if (temp != INT_MAX && temp != 0) {
+            sum += temp;
+            numConnectedNodes++;
+        }
+    }
+    int distanceToUser = distances[dest];
+    average = ((double)sum) / ((double)numConnectedNodes);
+
+    return make_pair(average, distanceToUser);
 }
 
 int main()
