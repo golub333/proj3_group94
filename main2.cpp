@@ -1,5 +1,5 @@
 #include <iomanip>
-#include "graph.cpp"
+#include "graph2.cpp"
 
 using namespace std;
 
@@ -31,16 +31,16 @@ int main()
     {
         if (selection == "1" || selection == "1.")
         {
-            //pair<int, int> degOfSep = degreeSeparationBFS(twitterUsers);
-            //cout << "The average degrees of separation found using BFS is: " << degOfSep.first << endl;
-            //cout << "The maximum degrees of separation found using BFS is: " << degOfSep.second << endl;
+            pair<int, int> degOfSep = twitterUsers.degreeSeparationBFS();
+            cout << "The average degrees of separation found using BFS is: " << degOfSep.first << endl;
+            cout << "The maximum degrees of separation found using BFS is: " << degOfSep.second << endl;
             selection = "done";
         }
         else if (selection == "2" || selection == "2.")
         {
-            //pair<int, int> degOfSep = degreeSeparationDijkstra(twitterUsers);
-            //cout << "The average degrees of separation found using Dijkstra's is: " << degOfSep.first << endl;
-            //cout << "The maximum degrees of separation found using Dijkstra's is: " << degOfSep.second << endl;
+            pair<int, int> degOfSep = twitterUsers.degreeSeparationDijkstra();
+            cout << "The average degrees of separation found using Dijkstra's is: " << degOfSep.first << endl;
+            cout << "The maximum degrees of separation found using Dijkstra's is: " << degOfSep.second << endl;
             selection = "done";
         }
         else if (selection == "3" || selection == "3.")
