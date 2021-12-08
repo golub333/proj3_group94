@@ -253,9 +253,11 @@ vector<int> Graph::dijkstra(int source, int maxSize + 1) {
             unsigned int weight = temp.second;
 
             //Updates distance of vertex if there is a shorter path found
-            if ((distance[tempVertex] + weight) < distance[neighbor]) {
-                distance[neighbor] = distance[tempVertex] + weight;
-                pq.push(make_pair(distance[neighbor], neighbor));
+            if (neighbor != -1) {
+                if ((distance[tempVertex] + weight) < distance[neighbor]) {
+                    distance[neighbor] = distance[tempVertex] + weight;
+                    pq.push(make_pair(distance[neighbor], neighbor));
+                }
             }
         }
     }
