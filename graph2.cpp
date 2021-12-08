@@ -300,30 +300,28 @@ pair<int, int> Graph::degreeSeparationDijkstra() {
     int tempLargest = 0;
     double average = 0;
 
-    int numConnectedNodes = 0;
-    int sum = 0;
+    double numConnectedNodes = 1;
+    long sum = 0;
 
-    uniform_int_distribution<> d(1, maxSize);
+    uniform_int_distribution<> d(1, 1000000);
     mt19937 gen;
 
     //Runs Dijkstra's on ten different randomly generated vertices within graph range
     for (int i = 0; i < 10; i++) {
-        vector<int> distances = dijkstra(d(gen), maxSize);
+        vector<int> distances = dijkstra(d(gen));
 
-        //Sums the values of all distances calculated as well as the number of nodes which were reached in each run
+        //Calculates average at each step to avoid integer overflow
         for (int temp : distances) {
             if (temp != INT_MAX && temp != 0) {
-                sum += temp;
+                average = (numConnectedNodes - 1) / numConnectedNodes * average + temp / numConnectedNodes;
                 numConnectedNodes++;
+
                 if (temp > tempLargest) {
                     tempLargest = temp;
                 }
             }
         }
     }
-    //Takes the average of all distances
-    average = ((double)sum) / ((double)numConnectedNodes);
-
     return make_pair(average, tempLargest);
 }
 //First value in pair is average distance to users from source vertex, second is distance to dest
