@@ -18,16 +18,18 @@ int main()
 
     //Begin user interaction with the program
     string selection = "-1";
-    cout << setfill(' ') << setw(41) << "Select Operation: " << endl;
-    cout << setfill('-') << setw(81) << "-" << endl;
-    cout << "1. Calculate average degrees of separation using BFS" << endl;
-    cout << "2. Calculate average shortest path length using Dijkstra's" << endl;
-    cout << "3. Find the minimum spanning tree around a given user's connections" << endl;
-    cin >> selection;
-    cout << endl;
 
     while (selection != "done")
     {
+        cout << setfill(' ') << setw(41) << "Select Operation: " << endl;
+        cout << setfill('-') << setw(81) << "-" << endl;
+        cout << "1. Calculate average degrees of separation using BFS" << endl;
+        cout << "2. Calculate average shortest path length using Dijkstra's" << endl;
+        cout << "3. Find the minimum spanning tree around a given user's connections" << endl;
+        cout << "Type any other input if finished" << endl;
+        cin >> selection;
+        cout << endl;
+        
         if (selection == "1" || selection == "1.")
         {
             cout << "Would you like to:" << endl;
@@ -56,7 +58,6 @@ int main()
                 cout << "The average degrees of separation found using BFS is: " << degOfSep.first << endl;
                 cout << "The maximum degrees of separation found using BFS is: " << degOfSep.second << endl;
             }
-            selection = "done";
         }
         else if (selection == "2" || selection == "2.")
         {
@@ -86,7 +87,6 @@ int main()
                 cout << "The average distance found using Dijkstra's is: " << degOfSep.first << " km" << endl;
                 cout << "The maximum distance found using Dijkstra's is: " << degOfSep.second << " km" << endl;
             } 
-            selection = "done";
         }
         else if (selection == "3" || selection == "3.")
         {
@@ -96,17 +96,11 @@ int main()
             cout << endl;
             //Complete functionality for MST
             twitterUsers.primMST(user);
+        }
+        else //User has indicated that they are finished
+        {
             selection = "done";
         }
-        else //invalid input. Ask the user again
-        {
-            cout << "Invalid input. Enter 1, 2, or 3 corresponding to the operation you wish to select" << endl;
-            cout << setfill('-') << setw(82) << endl;
-            cout << "1. Calculate Avg. and Max. Degrees of separation using BFS" << endl;
-            cout << "2. Calculate Avg. and Max. Degrees of separation using Dijkstra's" << endl;
-            cout << "3. Find the minimum spanning tree around a given user's connections" << endl;
-            cin >> selection;
-            cout << endl;
-        }
+        cout << endl;
     }
 }
