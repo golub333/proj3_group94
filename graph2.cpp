@@ -193,7 +193,7 @@ void Graph::primMST(int from)
         }
         count++;
     }
-    cout << "User " << from << " can reach " << edge_count << " users, spanning across a minimum distance of " << minCost << endl;
+    cout << "User " << from << " can reach " << edge_count << " users, spanning across a minimum distance of " << minCost << " km" << endl;
 }
 //Uses a modified form of breadth first search to calculate distance of all nodes which can be reached from a 
 //source node, with the edge weights all equal to one. Unreachable nodes will be left with a distance of INT_MAX.
