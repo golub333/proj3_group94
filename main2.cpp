@@ -21,8 +21,8 @@ int main()
     string selection = "-1";
     cout << setfill(' ') << setw(41) << "Select Operation: " << endl;
     cout << setfill('-') << setw(81) << "-" << endl;
-    cout << "1. Calculate Avg. and Max. Degrees of separation using BFS" << endl;
-    cout << "2. Calculate Avg. and Max. Degrees of separation using Dijkstra's" << endl;
+    cout << "1. Calculate average degrees of separation using BFS" << endl;
+    cout << "2. Calculate average shortest path length using Dijkstra's" << endl;
     cout << "3. Find the minimum spanning tree around a given user's connections" << endl;
     cin >> selection;
     cout << endl;
@@ -44,13 +44,13 @@ int main()
                 int dest;
                 cin >> dest;
                 pair<double, int> degOfSep = twitterUsers.specifiedUsersBFS(source, dest);
-                if (degOfSep.first == INT_MAX) {
+                if (degOfSep.second == INT_MAX) {
                     cout << "No path found between vertices" << endl;
                 }
                 else {
-                    cout << "Target vertices are " << degOfSep.first << " nodes apart" << endl;
+                    cout << "Target vertices are " << degOfSep.second << " nodes apart" << endl;
                 }
-                cout << "The average degrees of separation found using BFS is: " << degOfSep.second << endl;
+                cout << "The average degrees of separation found using BFS is: " << degOfSep.first << endl;
             }
             else {
                 pair<double, int> degOfSep = twitterUsers.degreeSeparationBFS();
@@ -74,13 +74,13 @@ int main()
                 int dest;
                 cin >> dest;
                 pair<double, int> degOfSep = twitterUsers.specifiedUsersDijkstra(source, dest);
-                if (degOfSep.first == INT_MAX) {
+                if (degOfSep.second == INT_MAX) {
                     cout << "No path found between vertices" << endl;
                 }
                 else {
-                    cout << "Target vertices have a path which is " << degOfSep.first << " km long" << endl;
+                    cout << "Target vertices have a path which is " << degOfSep.second << " km long" << endl;
                 }
-                cout << "The average degrees distance found using Dijkstra's is: " << degOfSep.second << endl;
+                cout << "The average degrees distance found using Dijkstra's is: " << degOfSep.first << endl;
             }
             else {
                 pair<double, int> degOfSep = twitterUsers.degreeSeparationDijkstra();
