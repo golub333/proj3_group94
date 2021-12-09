@@ -25,8 +25,8 @@ public:
     void primMST(int from);
     pair<int, int> degreeSeparationBFS();
     pair<int, int> degreeSeparationDijkstra();
-    vector<int> BFS(int source);
-    vector<int> dijkstra(int source);
+    vector<int> BFS(int source, int maxSize);
+    vector<int> dijkstra(int source, int maxSize);
     pair<int, int> specifiedUsersBFS(int source, int dest);
     pair<int, int> specifiedUsersDijkstra(int source, int dest);
 
@@ -342,7 +342,7 @@ pair<int, int> Graph::specifiedUsersBFS(int source, int dest) {
     int numConnectedNodes = 0;
     int sum = 0;
 
-    vector<int> distances = BFS(source, tempRand);
+    vector<int> distances = BFS(source, maxSize);
 
     //Sums the values of all distances calculated
     for (int temp : distances) {
@@ -363,7 +363,7 @@ pair<int, int> Graph::specifiedUsersDijkstra(int source, int dest) {
     double numConnectedNodes = 1;
     int sum = 0;
 
-    vector<int> distances = dijkstra(source, tempRand);
+    vector<int> distances = dijkstra(source, maxSize);
 
     //Sums the values of all distances calculated
     for (int temp : distances) {
