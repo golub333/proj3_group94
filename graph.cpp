@@ -6,7 +6,6 @@
 #include <queue>
 #include <random>
 #include <sstream>
-
 using namespace std;
 
 class Graph
