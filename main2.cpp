@@ -44,11 +44,11 @@ int main()
                 int dest;
                 cin >> dest;
                 pair<int, int> degOfSep = twitterUsers.specifiedUsersBFS(source, dest);
-                if (degOfSep->first == INT_MAX) {
+                if (degOfSep.first == INT_MAX) {
                     cout << "No path found between vertices" << endl;
                 }
                 else {
-                    cout << "Target vertices are " << degOfSep->first << " nodes apart" << endl;
+                    cout << "Target vertices are " << degOfSep.first << " nodes apart" << endl;
                 }
                 cout << "The average degrees of separation found using BFS is: " << degOfSep.second << endl;
             }
@@ -61,7 +61,6 @@ int main()
         }
         else if (selection == "2" || selection == "2.")
         {
-            {
             cout << "Would you like to:" << endl;
             cout << "1. Input vertices" << endl;
             cout << "2. Use a set randomly generated vertices" << endl;
@@ -75,11 +74,11 @@ int main()
                 int dest;
                 cin >> dest;
                 pair<int, int> degOfSep = twitterUsers.specifiedUsersDijkstra(source, dest);
-                if (degOfSep->first == INT_MAX) {
+                if (degOfSep.first == INT_MAX) {
                     cout << "No path found between vertices" << endl;
                 }
                 else {
-                    cout << "Target vertices have a path which is " << degOfSep->first << " (FIXME: km or miles?) long" << endl;
+                    cout << "Target vertices have a path which is " << degOfSep.first << " (FIXME: km or miles?) long" << endl;
                 }
                 cout << "The average degrees distance found using Dijkstra's is: " << degOfSep.second << endl;
             }
