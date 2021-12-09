@@ -23,12 +23,12 @@ public:
     void addEdge(int u, int v);
     bool checkValidity(map <int, bool>& inMST, int from, int to);
     void primMST(int from);
-    pair<int, int> degreeSeparationBFS();
-    pair<int, int> degreeSeparationDijkstra();
+    pair<double, int> degreeSeparationBFS();
+    pair<double, int> degreeSeparationDijkstra();
     vector<int> BFS(int source, int maxSize);
     vector<int> dijkstra(int source, int maxSize);
-    pair<int, int> specifiedUsersBFS(int source, int dest);
-    pair<int, int> specifiedUsersDijkstra(int source, int dest);
+    pair<double, int> specifiedUsersBFS(int source, int dest);
+    pair<double, int> specifiedUsersDijkstra(int source, int dest);
 
 };
 
@@ -264,7 +264,7 @@ vector<int> Graph::dijkstra(int source, int maxSize) {
     return distance;
 }
 //First value in pair is average degrees of separation, second is largest distance found
-pair<int, int> Graph::degreeSeparationBFS() {
+pair<double, int> Graph::degreeSeparationBFS() {
 
     int tempLargest = 0;
     double average = 0;
@@ -302,7 +302,7 @@ pair<int, int> Graph::degreeSeparationBFS() {
     return make_pair(average, tempLargest);
 }
 //First value in pair is average distance to users, second is largest distance found
-pair<int, int> Graph::degreeSeparationDijkstra() {
+pair<double, int> Graph::degreeSeparationDijkstra() {
 
     int tempLargest = 0;
     double average = 0;
@@ -336,7 +336,7 @@ pair<int, int> Graph::degreeSeparationDijkstra() {
     return make_pair(average, tempLargest);
 }
 //First value in pair is average distance to users from source vertex, second is distance to dest
-pair<int, int> Graph::specifiedUsersBFS(int source, int dest) {
+pair<double, int> Graph::specifiedUsersBFS(int source, int dest) {
     double average = 0;
 
     int numConnectedNodes = 0;
@@ -357,7 +357,7 @@ pair<int, int> Graph::specifiedUsersBFS(int source, int dest) {
     return make_pair(average, distanceToUser);
 }
 //First value in pair is average distance to users from source vertex, second is distance to dest
-pair<int, int> Graph::specifiedUsersDijkstra(int source, int dest) {
+pair<double, int> Graph::specifiedUsersDijkstra(int source, int dest) {
     double average = 0;
 
     double numConnectedNodes = 1;
