@@ -231,7 +231,7 @@ vector<int> Graph::BFS(int source, int maxSize) {
 }
 //Calculates distance to all nodes from a given source node, where the edge weight is geographical distance. 
 //Distance to any unreachable nodes will be left at INT_MAX.
-vector<int> Graph::dijkstra(int source, int maxSize + 1) {
+vector<int> Graph::dijkstra(int source, int maxSize) {
 
     //Min heap containing pairs which store the distance to the given vertex and the vertex
     priority_queue <pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
@@ -277,7 +277,12 @@ pair<int, int> Graph::degreeSeparationBFS() {
 
     //Runs BFS on ten different randomly generated vertices within graph range
     for (int i = 0; i < 10; i++) {
-        vector<int> distances = BFS(d(gen), maxSize);
+        int tempRand = d(gen);
+        while (adjList[tempRand][0].first == -1) {
+            tempRand = d(gen);
+        }
+        
+        vector<int> distances = BFS(tempRand, maxSize);
 
         //Sums the values of all distances calculated as well as the number of nodes which were reached in each BFS
         for (int temp : distances) {
@@ -305,12 +310,16 @@ pair<int, int> Graph::degreeSeparationDijkstra() {
     double numConnectedNodes = 1;
     long sum = 0;
 
-    uniform_int_distribution<> d(1, 1000000);
+    uniform_int_distribution<> d(1, maxSize);
     mt19937 gen;
 
     //Runs Dijkstra's on ten different randomly generated vertices within graph range
     for (int i = 0; i < 10; i++) {
-        vector<int> distances = dijkstra(d(gen));
+        int tempRand = d(gen);
+        while (adjList[tempRand][0].first == -1) {
+            tempRand = d(gen);
+        }
+        vector<int> distances = dijkstra(tempRand, maxSize);
 
         //Calculates average at each step to avoid integer overflow
         for (int temp : distances) {
@@ -333,7 +342,7 @@ pair<int, int> Graph::specifiedUsersBFS(int source, int dest) {
     int numConnectedNodes = 0;
     int sum = 0;
 
-    vector<int> distances = BFS(source);
+    vector<int> distances = BFS(source, tempRand);
 
     //Sums the values of all distances calculated
     for (int temp : distances) {
@@ -351,20 +360,19 @@ pair<int, int> Graph::specifiedUsersBFS(int source, int dest) {
 pair<int, int> Graph::specifiedUsersDijkstra(int source, int dest) {
     double average = 0;
 
-    int numConnectedNodes = 0;
+    double numConnectedNodes = 1;
     int sum = 0;
 
-    vector<int> distances = dijkstra(source);
+    vector<int> distances = dijkstra(source, tempRand);
 
     //Sums the values of all distances calculated
     for (int temp : distances) {
         if (temp != INT_MAX && temp != 0) {
-            sum += temp;
+            average = (numConnectedNodes - 1) / numConnectedNodes * average + temp / numConnectedNodes;
             numConnectedNodes++;
         }
     }
     int distanceToUser = distances[dest];
-    average = ((double)sum) / ((double)numConnectedNodes);
 
     return make_pair(average, distanceToUser);
 }
