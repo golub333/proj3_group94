@@ -43,7 +43,7 @@ int main()
                 cout << "Enter destination vertex between 1 and " << maxSize << ":" << endl;
                 int dest;
                 cin >> dest;
-                pair<int, int> degOfSep = twitterUsers.specifiedUsersBFS(source, dest);
+                pair<double, int> degOfSep = twitterUsers.specifiedUsersBFS(source, dest);
                 if (degOfSep.first == INT_MAX) {
                     cout << "No path found between vertices" << endl;
                 }
@@ -53,7 +53,7 @@ int main()
                 cout << "The average degrees of separation found using BFS is: " << degOfSep.second << endl;
             }
             else {
-                pair<int, int> degOfSep = twitterUsers.degreeSeparationBFS();
+                pair<double, int> degOfSep = twitterUsers.degreeSeparationBFS();
                 cout << "The average degrees of separation found using BFS is: " << degOfSep.first << endl;
                 cout << "The maximum degrees of separation found using BFS is: " << degOfSep.second << endl;
             }
@@ -73,7 +73,7 @@ int main()
                 cout << "Enter destination vertex between 1 and " << maxSize << ":" << endl;
                 int dest;
                 cin >> dest;
-                pair<int, int> degOfSep = twitterUsers.specifiedUsersDijkstra(source, dest);
+                pair<double, int> degOfSep = twitterUsers.specifiedUsersDijkstra(source, dest);
                 if (degOfSep.first == INT_MAX) {
                     cout << "No path found between vertices" << endl;
                 }
@@ -83,7 +83,7 @@ int main()
                 cout << "The average degrees distance found using Dijkstra's is: " << degOfSep.second << endl;
             }
             else {
-                pair<int, int> degOfSep = twitterUsers.degreeSeparationDijkstra();
+                pair<double, int> degOfSep = twitterUsers.degreeSeparationDijkstra();
                 cout << "The average distance found using Dijkstra's is: " << degOfSep.first << endl;
                 cout << "The maximum distance found using Dijkstra's is: " << degOfSep.second << endl;
             }
