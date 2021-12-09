@@ -4,7 +4,6 @@
 using namespace std;
 
 //twitter_dataset/1_million/
-
 int main()
 {
     int maxSize = 0;
