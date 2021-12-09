@@ -78,15 +78,15 @@ int main()
                     cout << "No path found between vertices" << endl;
                 }
                 else {
-                    cout << "Target vertices have a path which is " << degOfSep.first << " (FIXME: km or miles?) long" << endl;
+                    cout << "Target vertices have a path which is " << degOfSep.first << " km long" << endl;
                 }
                 cout << "The average degrees distance found using Dijkstra's is: " << degOfSep.second << endl;
             }
             else {
                 pair<double, int> degOfSep = twitterUsers.degreeSeparationDijkstra();
-                cout << "The average distance found using Dijkstra's is: " << degOfSep.first << endl;
-                cout << "The maximum distance found using Dijkstra's is: " << degOfSep.second << endl;
-            }
+                cout << "The average distance found using Dijkstra's is: " << degOfSep.first << " km" << endl;
+                cout << "The maximum distance found using Dijkstra's is: " << degOfSep.second << " km" << endl;
+            } 
             selection = "done";
         }
         else if (selection == "3" || selection == "3.")
